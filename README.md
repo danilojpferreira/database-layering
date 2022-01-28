@@ -44,7 +44,7 @@ Otherwise, if you prefer to run this project without a virtualization service (c
 Ensure you have docker and docker-compose installed on your system. Usually, docker-compose comes with Docker Desktop. Then, you should to open a new terminal tab, go to project folder (root) and type:
 
 ```bash
-docker-compose up -d
+docker-compose build && docker-compose up
 ```
 
 When you finish, to close the application use the command:
@@ -587,6 +587,14 @@ This tutorial represents a use case of this API. Please ensure that both the dat
     "store": "Main store 001"
   }
   ```
+
+  4. You can view this `warehouse data` getting the data id (showed in the reponse body "insertedId" in the last function, used to add it) and make this call:
+
+  Method: `GET`
+
+  Path: `localhost:3000?/{{insertedId}}`
+
+  Body: *None*
 
 You can also test the calls via postman, by the document HPS_API.postman_collection.json available in the root of this project
 

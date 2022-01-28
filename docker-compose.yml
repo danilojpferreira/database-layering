@@ -1,0 +1,19 @@
+version: '2'
+services:
+  be:
+    build: ./backend
+    restart: always
+    ports:
+      - '3000:3000'
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/main/
+  mongo:
+    image: mongo
+    restart: always
+    command: mongod --noauth
+    ports:
+      - '27017:27017'

@@ -1,0 +1,457 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Historic Documentation",
+    "description":
+      "This documentation was build for internal usage. Contribute to make it complete. DO NOT DISTRIBUTE.",
+    "version": "1.0.0",
+    "contact": {
+      "email": "lecirics@gmail.com"
+    }
+  },
+  "paths": {
+    "/{collection}": {
+      "post": {
+        "tags": ["Collection"],
+        "summary": "Create a new item for a Collection",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "collection",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Collection name",
+            "example": "user"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "login": {
+                    "identification": "lecirics@gmail.com",
+                    "password": "12345678"
+                  }
+                }
+              }
+            }
+          } 
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/get/{collection}": {
+      "post": {
+        "tags": ["Collection"],
+        "summary": "Get items from a Collection",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "collection",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Collection name",
+            "example": "user"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "aggregate": {
+                    "type": "array"
+                  }
+                },
+                "example": {
+                  "aggregate": [{"$match": {"entity": "USER"}}, {"$project": {"user":"$entity"}}]
+                }
+              }
+            }
+          } 
+        },
+        "responses": {
+          "200": {
+            "description": "List of a Collection",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/{collection}/{id}": {
+      "put": {
+        "tags": ["Collection"],
+        "summary": "Update a document from a collection",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "collection",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Collection name",
+            "example": "user"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID of a document",
+            "example": "60b3b7f14efb055e7ff776cf"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          } 
+        },
+        "responses": {
+          "200": {
+            "description": "Update a document from a Collection"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Collection"],
+        "summary": "Delete a document from a collection",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "collection",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Collection name",
+            "example": "historic"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID of a document",
+            "example": "60b3b7f14efb055e7ff776cf"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete a document from a Collection"
+          },
+          "404": {
+            "description": "Document doesn't exist in this collection"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": ["Session"],
+        "summary": "Create a new session for a user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "user": "lecirics@gmail.com",
+                  "password": "12345678"
+                }
+              }
+            }
+          } 
+        },
+        "responses": {
+          "201": {
+            "description": "Create a new session for a user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Email or password incorrect"
+          }
+        }
+      }
+    },
+    "/reset_password": {
+      "post": {
+        "tags": ["Session"],
+        "summary": "Reset a password of a user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "password": "12345678"
+                }
+              }
+            }
+          } 
+        },
+        "responses": {
+          "201": {
+            "description": "Reset a password of a user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token"
+          }
+        }
+      }
+    },
+    "/set_password": {
+      "post": {
+        "tags": ["Session"],
+        "summary": "Set a password of a user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "user": "lecirics@gmail.com",
+                  "password": "12345678"
+                }
+              }
+            }
+          } 
+        },
+        "responses": {
+          "201": {
+            "description": "Set a password for a user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/user": {
+      "get": {
+        "tags": ["Session"],
+        "summary": "Get a document of a user by token",
+        "responses": {
+          "200": {
+            "description": "Get a document of a user by token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Token is missing"
+          }
+        }
+      }
+    },
+    "/request_magic_link": {
+      "post": {
+        "tags": ["Session"],
+        "summary": "Send a email with a link to reset password",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "user": "lecirics@gmail.com"
+                }
+              }
+            }
+          } 
+        },
+        "responses": {
+          "200": {
+            "description": "Send a email with a link to reset password",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User does not exist"
+          }
+        }
+      }
+    },
+    "/send_bulk_emails": {
+      "post": {
+        "tags": ["Session"],
+        "summary": "Send emails to all emails passed",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "emails": {
+                    "type": "array"
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "emails": ["teste@teste.com", "teste2@teste.com"],
+                  "message": "Olá! Tudo bem?</br>Eu de novo trazendo as novidades da plataforma {reprograma}!"
+                }
+              }
+            }
+          } 
+        },
+        "responses": {
+          "200": {
+            "description": "Send a email with a link to reset password",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User does not exist"
+          }
+        }
+      }
+    },
+    "/fileUpload": {
+      "post": {
+        "tags": ["Upload"],
+        "consumes": "multipart/form-data",
+        "summary": "Upload a file to aws bucket",
+        "parameters":[
+          {"formData": {
+            "name": "file",
+            "type": "file",
+            "required": true,
+            "description": "The file to upload"
+          }}
+        ],
+        "responses": {
+          "200": {
+            "description": "Send the file to aws bucket",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "File not found"
+          }
+        }
+      }
+    }
+  }
+}

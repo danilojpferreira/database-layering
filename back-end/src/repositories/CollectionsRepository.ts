@@ -3,6 +3,7 @@ import { MongoClient, ObjectId } from "mongodb";
 
 import { connect } from "../database";
 import AppError from "../shared/AppError";
+import { database } from "../utils/config";
 import {
   ICreate,
   IRequest,
@@ -29,7 +30,7 @@ class CollectionsRepository implements ICollectionRepository {
 
   async create({ document, collection }: ICreate): Promise<void> {
     (await this.client)
-      .db("main")
+      .db(database)
       .collection(collection)
       .insertOne(document)
       .catch((err) => {
@@ -45,7 +46,7 @@ class CollectionsRepository implements ICollectionRepository {
     const item = await (
       await this.client
     )
-      .db("main")
+      .db(database)
       .collection(collection)
       .findOneAndUpdate({ _id: new ObjectId(id) }, { $set: document })
       .catch((err) => {
@@ -65,7 +66,7 @@ class CollectionsRepository implements ICollectionRepository {
     const item = await (
       await this.client
     )
-      .db("main")
+      .db(database)
       .collection(collection)
       .findOneAndReplace({ _id: new ObjectId(id) }, document)
       .catch((err) => {
@@ -85,7 +86,7 @@ class CollectionsRepository implements ICollectionRepository {
     const item = await (
       await this.client
     )
-      .db("main")
+      .db(database)
       .collection(collection)
       .findOneAndDelete({ _id: new ObjectId(id) })
       .catch((err) => {
@@ -101,10 +102,12 @@ class CollectionsRepository implements ICollectionRepository {
     const item = await (
       await this.client
     )
-      .db()
+      .db(database)
       .collection(collection)
       .findOne({ _id: new ObjectId(id) })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        throw new AppError(err, 404);
+      });
 
     return item;
   }
@@ -113,11 +116,12 @@ class CollectionsRepository implements ICollectionRepository {
     const item = await (
       await this.client
     )
-      .db()
+      .db(database)
       .collection(collection)
       .findOne({ name })
-      .catch((err) => console.log(err));
-
+      .catch((err) => {
+        throw new AppError(err, 404);
+      });
     return item;
   }
 }

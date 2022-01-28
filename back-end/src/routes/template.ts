@@ -46,8 +46,9 @@ const remove = async (request: Request, response: Response) => {
 
 const getByName = async (request: Request, response: Response) => {
   const { name } = request.params;
-  await mongo.getByName({ collection, name });
-  return response.status(200).send();
+  console.log(name);
+  const document = await mongo.getByName({ collection, name });
+  return response.json(document).status(200).send();
 };
 
 template.post("", ensureValidate, insert);

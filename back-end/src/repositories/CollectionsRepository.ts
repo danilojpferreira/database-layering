@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { MongoClient, ObjectId } from "mongodb";
+import { InsertOneResult, MongoClient, ObjectId } from "mongodb";
 
 import { connect } from "../database";
 import AppError from "../shared/AppError";
@@ -28,14 +28,18 @@ class CollectionsRepository implements ICollectionRepository {
     return CollectionsRepository.INSTANCE;
   }
 
-  async create({ document, collection }: ICreate): Promise<void> {
-    (await this.client)
+  async create({
+    document,
+    collection,
+  }: ICreate): Promise<InsertOneResult<Document>> {
+    const item = (await this.client)
       .db(database)
       .collection(collection)
       .insertOne(document)
       .catch((err) => {
         throw new AppError(err, 404);
       });
+    return item;
   }
 
   async update({ collection, id, document }: IUpdate): Promise<void> {
@@ -108,8 +112,8 @@ class CollectionsRepository implements ICollectionRepository {
       .catch((err) => {
         throw new AppError(err, 404);
       });
-
-    return item;
+    if (!item) throw new AppError("item not found", 404);
+    else return item;
   }
 
   async getByName({ collection, name }: IRequestByName): Promise<any> {
@@ -122,7 +126,8 @@ class CollectionsRepository implements ICollectionRepository {
       .catch((err) => {
         throw new AppError(err, 404);
       });
-    return item;
+    if (!item) throw new AppError("item not found", 404);
+    else return item;
   }
 }
 

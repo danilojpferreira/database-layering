@@ -38,8 +38,8 @@ const parseTemplate = async (
 };
 
 const insert = async (request: Request, response: Response) => {
-  await mongo.create({ collection, document: request.body });
-  return response.status(200).send();
+  const insertion = await mongo.create({ collection, document: request.body });
+  return response.json(insertion).status(200).send();
 };
 
 const put = async (request: Request, response: Response) => {
@@ -70,8 +70,8 @@ const get = async (request: Request, response: Response) => {
 
 warehouse.post("", parseTemplate, ensureValidate, insert);
 warehouse.put("/:id", parseTemplate, ensureValidate, put);
-warehouse.patch("/:id", parseTemplate, patch);
-warehouse.delete("/:id", parseTemplate, remove);
-warehouse.get("/:id", parseTemplate, get);
+warehouse.patch("/:id", patch);
+warehouse.delete("/:id", remove);
+warehouse.get("/:id", get);
 
 export { warehouse };

@@ -20,8 +20,8 @@ const ensureValidate = (
 };
 
 const insert = async (request: Request, response: Response) => {
-  await mongo.create({ collection, document: request.body });
-  return response.status(200).send();
+  const insertion = await mongo.create({ collection, document: request.body });
+  return response.json(insertion).status(200).send();
 };
 
 const put = async (request: Request, response: Response) => {
@@ -46,7 +46,6 @@ const remove = async (request: Request, response: Response) => {
 
 const getByName = async (request: Request, response: Response) => {
   const { name } = request.params;
-  console.log(name);
   const document = await mongo.getByName({ collection, name });
   return response.json(document).status(200).send();
 };

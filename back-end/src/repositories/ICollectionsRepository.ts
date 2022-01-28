@@ -1,3 +1,5 @@
+import { InsertOneResult } from "mongodb";
+
 export interface IRequest {
   collection: string;
   id: string;
@@ -20,7 +22,7 @@ export interface IUpdate {
 }
 
 interface ICollectionRepository {
-  create({ document, collection }: ICreate): Promise<void>;
+  create({ document, collection }: ICreate): Promise<InsertOneResult<Document>>;
   update({ collection, id, document }: IUpdate): Promise<void>;
   replace({ collection, id, document }: IUpdate): Promise<void>;
   delete({ collection, id }: IRequest): Promise<void>;

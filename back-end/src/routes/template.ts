@@ -16,7 +16,7 @@ const ensureValidate = (
 ) => {
   const status = joiTemplate.validate(request.body);
   if (status.error === undefined) next();
-  throw new AppError(status.error.message, 500);
+  else throw new AppError(status.error.message, 500);
 };
 
 const insert = async (request: Request, response: Response) => {

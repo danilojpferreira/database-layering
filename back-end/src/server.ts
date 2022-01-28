@@ -7,26 +7,17 @@ import cors from "cors";
 import { errors } from "celebrate";
 import express, { Request, Response, NextFunction } from "express";
 
-import swaggerUi from "swagger-ui-express";
-
 import AppError from "./shared/AppError";
-import swaggerFile from "./swagger.json";
 import { port } from "./utils/config";
 import { router } from "./routes";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use(router);
 app.use(errors());
 app.use(
-  (
-    err: Error,
-    request: express.Request,
-    response: express.Response,
-    _next: express.NextFunction
-  ) => {
+  (err: Error, request: Request, response: Response, _next: NextFunction) => {
     if (err instanceof AppError) {
       return response.status(err.statusCode).json({
         message: err.message,

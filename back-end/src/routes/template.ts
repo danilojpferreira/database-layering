@@ -44,12 +44,6 @@ const remove = async (request: Request, response: Response) => {
   return response.status(200).send();
 };
 
-const get = async (request: Request, response: Response) => {
-  const { id } = request.params;
-  await mongo.get({ collection, id });
-  return response.status(200).send();
-};
-
 const getByName = async (request: Request, response: Response) => {
   const { name } = request.params;
   await mongo.getByName({ collection, name });
@@ -60,7 +54,6 @@ template.post("", ensureValidate, insert);
 template.put("/:id", ensureValidate, put);
 template.patch("/:id", patch);
 template.delete("/:id", remove);
-template.get("/:id", get);
 template.get("/:name", getByName);
 
 export { template };

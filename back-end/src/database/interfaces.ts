@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Joi } from "celebrate";
+import Joi from "joi";
 
 interface genericLabel {
   label: string;
@@ -31,9 +31,8 @@ interface _place_of_purchase extends genericLabel {
   label: "STORE" | "ONLINE";
 }
 
-export interface template {
+interface base {
   _id: string;
-  date: Date;
   labels: {
     needs: _needs[];
     product_clusters: _product_clusters[];
@@ -54,29 +53,12 @@ export interface template {
     events: string[];
   };
 }
+interface template extends base {
+  name: string;
+}
 
-export interface warehouse extends template {
-  _id: string;
+interface warehouse extends base {
   date: Date;
-  labels: {
-    needs: _needs[];
-    product_clusters: _product_clusters[];
-    triggers: _triggers[];
-    missions: _missions[];
-    touchpoints: _touchpoints[];
-    journey_phases: _journey_phases[];
-    place_of_purchase: _place_of_purchase[];
-  };
-  relationships: {
-    client: string;
-    retail: string;
-    seller: string;
-    product_sku: string | number;
-    shelf_price: number;
-    transaction_price: number;
-    quantity: number;
-    events: string[];
-  };
   data: any;
 }
 
@@ -149,7 +131,7 @@ export const joiWarehouse = Joi.object({
 
 export const joiTemplate = Joi.object({
   _id: Joi.string().allow(null),
-  date: Joi.date().allow(null),
+  name: Joi.string(),
   labels: {
     needs: Joi.string(),
     product_clusters: Joi.string(),

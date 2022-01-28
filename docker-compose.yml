@@ -1,7 +1,7 @@
 version: '2'
 services:
   be:
-    build: ./backend
+    build: ./back-end
     restart: always
     ports:
       - '3000:3000'

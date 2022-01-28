@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import Joi from "joi";
 
-interface genericLabel {
+export interface genericLabel {
   label: string;
-  qualifier: string | number | boolean;
+  qualifier?: string | number | boolean;
   meta?: any;
 }
 interface _needs extends genericLabel {
@@ -31,95 +31,102 @@ interface _place_of_purchase extends genericLabel {
   label: "STORE" | "ONLINE";
 }
 
-interface base {
-  _id: string;
-  labels: {
-    needs: _needs[];
-    product_clusters: _product_clusters[];
-    triggers: _triggers[];
-    missions: _missions[];
-    touchpoints: _touchpoints[];
-    journey_phases: _journey_phases[];
-    place_of_purchase: _place_of_purchase[];
-  };
-  relationships: {
-    client: string;
-    retail: string;
-    seller: string;
-    product_sku: string | number;
-    shelf_price: number;
-    transaction_price: number;
-    quantity: number;
-    events: string[];
-  };
-}
-interface template extends base {
-  name: string;
+interface basicRelationships {
+  client: string;
+  retail: string;
+  seller: string;
+  product_sku: string | number;
+  shelf_price: number;
+  transaction_price: number;
+  quantity: number;
 }
 
-interface warehouse extends base {
+interface extendedRelationships extends basicRelationships {
+  events: string[];
+}
+
+interface base {
+  _id: string | null;
+  labels: {
+    needs: _needs;
+    product_clusters: _product_clusters;
+    triggers: _triggers;
+    missions: _missions;
+    touchpoints: _touchpoints;
+    journey_phases: _journey_phases;
+    place_of_purchase: _place_of_purchase;
+  };
+}
+
+export interface template extends base {
+  name: string;
+  relationships: basicRelationships;
+}
+
+export interface warehouse extends base {
   date: Date;
   data: any;
+  relationships: extendedRelationships;
 }
 
 export const joiWarehouse = Joi.object({
   _id: Joi.string().allow(null),
   date: Joi.date().allow(null),
   labels: {
-    needs: Joi.array().items({
+    needs: Joi.object({
       label: Joi.string(),
       qualifier: Joi.alternatives(Joi.string, Joi.number, Joi.boolean).allow(
         null
       ),
       meta: Joi.any().allow(null),
-    }),
-    product_clusters: Joi.array().items({
+    }).allow(null),
+    product_clusters: Joi.object({
       label: Joi.string(),
       qualifier: Joi.alternatives(Joi.string, Joi.number, Joi.boolean).allow(
         null
       ),
       meta: Joi.any().allow(null),
-    }),
-    triggers: Joi.array().items({
+    }).allow(null),
+    triggers: Joi.object({
       label: Joi.string(),
       qualifier: Joi.alternatives(Joi.string, Joi.number, Joi.boolean).allow(
         null
       ),
       meta: Joi.any().allow(null),
-    }),
-    missions: Joi.array().items({
+    }).allow(null),
+    missions: Joi.object({
       label: Joi.string(),
       qualifier: Joi.alternatives(Joi.string, Joi.number, Joi.boolean).allow(
         null
       ),
       meta: Joi.any().allow(null),
-    }),
-    touchpoints: Joi.array().items({
+    }).allow(null),
+    touchpoints: Joi.object({
       label: Joi.string(),
       qualifier: Joi.alternatives(Joi.string, Joi.number, Joi.boolean).allow(
         null
       ),
       meta: Joi.any().allow(null),
-    }),
-    journey_phases: Joi.array().items({
+    }).allow(null),
+    journey_phases: Joi.object({
       label: Joi.string(),
       qualifier: Joi.alternatives(Joi.string, Joi.number, Joi.boolean).allow(
         null
       ),
       meta: Joi.any().allow(null),
-    }),
-    place_of_purchase: Joi.array().items({
+    }).allow(null),
+    place_of_purchase: Joi.object({
       label: Joi.string(),
       qualifier: Joi.alternatives(Joi.string, Joi.number, Joi.boolean).allow(
         null
       ),
       meta: Joi.any().allow(null),
-    }),
+    }).allow(null),
   },
   relationships: {
-    client: Joi.string().allow("", null),
-    retail: Joi.string().allow("", null),
-    seller: Joi.string().allow("", null),
+    client: Joi.alternatives(Joi.string(), Joi.number()).allow(null),
+    retail: Joi.alternatives(Joi.string(), Joi.number()).allow(null),
+    seller: Joi.alternatives(Joi.string(), Joi.number()).allow(null),
     product_sku: Joi.alternatives(Joi.string(), Joi.number()).allow(null),
     shelf_price: Joi.number().allow(null),
     transaction_price: Joi.number().allow(null),
@@ -132,23 +139,23 @@ export const joiWarehouse = Joi.object({
 export const joiTemplate = Joi.object({
   _id: Joi.string().allow(null),
   name: Joi.string(),
-  labels: {
-    needs: Joi.string(),
-    product_clusters: Joi.string(),
-    triggers: Joi.string(),
-    missions: Joi.string(),
-    touchpoints: Joi.string(),
-    journey_phases: Joi.string(),
-    place_of_purchase: Joi.string(),
-  },
-  relationships: {
-    client: Joi.string().allow("", null),
-    retail: Joi.string().allow("", null),
-    seller: Joi.string().allow("", null),
-    product_sku: Joi.string().allow("", null),
-    shelf_price: Joi.string().allow("", null),
-    transaction_price: Joi.string().allow("", null),
-    quantity: Joi.string().allow("", null),
-    events: Joi.string(),
-  },
+  labels: Joi.object({
+    needs: Joi.any().allow(null),
+    product_clusters: Joi.any().allow(null),
+    triggers: Joi.any().allow(null),
+    missions: Joi.any().allow(null),
+    touchpoints: Joi.any().allow(null),
+    journey_phases: Joi.any().allow(null),
+    place_of_purchase: Joi.any().allow(null),
+  }).allow(null),
+  relationships: Joi.object({
+    client: Joi.any().allow(null),
+    retail: Joi.any().allow(null),
+    seller: Joi.any().allow(null),
+    product_sku: Joi.any().allow(null),
+    shelf_price: Joi.any().allow(null),
+    transaction_price: Joi.any().allow(null),
+    quantity: Joi.any().allow(null),
+    events: Joi.any().allow(null),
+  }).allow(null),
 });

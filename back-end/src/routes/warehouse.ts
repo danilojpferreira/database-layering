@@ -18,7 +18,7 @@ const ensureValidate = (
 ) => {
   const status = joiWarehouse.validate(request.body);
   if (status.error === undefined) next();
-  throw new AppError(status.error.message, 500);
+  else throw new AppError(status.error.message, 500);
 };
 
 const parseTemplate = async (
@@ -64,12 +64,12 @@ const remove = async (request: Request, response: Response) => {
 
 const get = async (request: Request, response: Response) => {
   const { id } = request.params;
-  await mongo.get({ collection, id });
-  return response.status(200).send();
+  const r = await mongo.get({ collection, id });
+  return response.json(r).status(200).send();
 };
 
-warehouse.post("", ensureValidate, parseTemplate, insert);
-warehouse.put("/:id", ensureValidate, parseTemplate, put);
+warehouse.post("", parseTemplate, ensureValidate, insert);
+warehouse.put("/:id", parseTemplate, ensureValidate, put);
 warehouse.patch("/:id", parseTemplate, patch);
 warehouse.delete("/:id", parseTemplate, remove);
 warehouse.get("/:id", parseTemplate, get);

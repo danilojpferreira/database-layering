@@ -3,7 +3,7 @@
 </h1>
 
 <p align="center">
-  This project comprises backend and database solutions to create a underlying database to HPS product, as part of the Assessment.
+  This project comprises backend and database solutions to create a underlying database, as part of the Assessment.
 </p>
 
 <p align="center">
@@ -85,7 +85,7 @@ It should start your backend server. By default, the server starts on localhost 
 
 Database-Layering aims to implement a data dictionary for building a datalake/data warehouse. This means that any data source, which provides its data as JSON over http protocol, can be stored in this database.
 
-As part of the concept around the datalake/data warehouse, the data needs to be labeled, as determined by the HPS product. This means that each data received (call `third-party data`) to be added must go through an algorithm that partially understands its structure and performs such labeling. The approach used in this project is the creation of `templates`. A `template` is a JSON/BSON file which carries the information on how to fill the labels and/or relationships that a `third-party data` has.
+As part of the concept around the datalake/data warehouse, the data needs to be labeled, as determined by the product. This means that each data received (call `third-party data`) to be added must go through an algorithm that partially understands its structure and performs such labeling. The approach used in this project is the creation of `templates`. A `template` is a JSON/BSON file which carries the information on how to fill the labels and/or relationships that a `third-party data` has.
 
 On practice, it works receivind `third-party data` and casting it to a `warehouse data` usign the `template model`
 
@@ -596,7 +596,7 @@ This tutorial represents a use case of this API. Please ensure that both the dat
 
   Body: *None*
 
-You can also test the calls via postman, by the document HPS_API.postman_collection.json available in the root of this project
+You can also test the calls via postman, by the document API.postman_collection.json available in the root of this project
 
 # Author
 

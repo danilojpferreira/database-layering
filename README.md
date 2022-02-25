@@ -602,7 +602,7 @@ You can also test the calls via postman, by the document API.postman_collection.
 
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/danilojpferreira/"><img style="border-radius: 50%;" height="100px" width="100px" src="https://media-exp1.licdn.com/dms/image/C4E03AQFgk8Q7YSODuw/profile-displayphoto-shrink_800_800/0/1586959675005?e=1643846400&v=beta&t=noednhWncm5IiK9iwZSjlL4fcm8zVkyPOYNjEbw1GMU"><br/><p><b>Danilo Pereira</b></p></a><p>Author</p><a href="https://www.linkedin.com/in/danilojpferreira/">Linkedin</a></td>
+    <td align="center"><a href="https://github.com/danilojpferreira/"><img style="border-radius: 50%;" height="100px" width="100px" src="https://media-exp1.licdn.com/dms/image/C4E03AQFgk8Q7YSODuw/profile-displayphoto-shrink_400_400/0/1586959675005?e=1651104000&v=beta&t=bGjBny0gNnvckN8Rfo9trp0vjxRQ0207kvpZzsz5nYo"><br/><p><b>Danilo Pereira</b></p></a><p>Author</p><a href="https://www.linkedin.com/in/danilojpferreira/">Linkedin</a></td>
   </tr>
   
 </table>
